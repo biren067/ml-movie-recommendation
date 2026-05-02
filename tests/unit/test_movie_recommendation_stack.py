@@ -1,7 +1,7 @@
 import aws_cdk as core
 import aws_cdk.assertions as assertions
 
-from movie_recommendation.movie_recommendation_stack import MovieRecommendationStack
+from movie_recommendation.stack.movie_recommendation_stack import MovieRecommendationStack
 
 # example tests. To run these tests, uncomment this file along with the example
 # resource in movie_recommendation/movie_recommendation_stack.py

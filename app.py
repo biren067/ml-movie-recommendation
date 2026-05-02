@@ -3,7 +3,7 @@ import os
 
 import aws_cdk as cdk
 
-from movie_recommendation.movie_recommendation_stack import MovieRecommendationStack
+from movie_recommendation.stack.movie_recommendation_stack import MovieRecommendationStack
 
 
 app = cdk.App()
