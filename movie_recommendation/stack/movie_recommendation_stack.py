@@ -16,7 +16,7 @@ class MovieRecommendationStack(Stack):
         api = apigateway.RestApi(
             self, "ml-moivie-recommendation-api",
             rest_api_name="API ML Recommendation Service",
-            description="This service serves my API."
+            description="This service serves my API.",
             default_cors_preflight_options={
                 "allow_origins": apigateway.Cors.ALL_ORIGINS,
                 "allow_methods": apigateway.Cors.ALL_METHODS
