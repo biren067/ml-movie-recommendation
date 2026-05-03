@@ -4,6 +4,7 @@ from aws_cdk import (
     aws_apigateway as apigateway,
 )
 from constructs import Construct
+from aws_cdk import CfnOutput
 
 
 class MovieRecommendationStack(Stack):
@@ -14,8 +15,15 @@ class MovieRecommendationStack(Stack):
         # API Gateway
         api = apigateway.RestApi(
             self, "ml-moivie-recommendation-api",
-            rest_api_name="My Service",
+            rest_api_name="API ML Recommendation Service",
             description="This service serves my API."
+            default_cors_preflight_options={
+                "allow_origins": apigateway.Cors.ALL_ORIGINS,
+                "allow_methods": apigateway.Cors.ALL_METHODS
+            },
+            deploy_options=apigateway.StageOptions(
+                stage_name="stage"   # ✅ important: use real stage
+            ),
         )
         # Create Resource for api-gateway
         ml_movie_recommendation_resource = api.root.add_resource(
@@ -49,5 +57,27 @@ class MovieRecommendationStack(Stack):
         # added resource and method for health check
         ml_movie_recommendation_resource.add_method(
             "GET",
-            apigateway.LambdaIntegration(get_health_check_lambda)
+            apigateway.LambdaIntegration(get_health_check_lambda),
+            authorization_type=apigateway.AuthorizationType.NONE
         )
+
+        CfnOutput(
+            self,
+            "MlApiUrl",
+            value=f"{api.url}ml-movie-recommendation"
+        )
+
+# Custom domain
+
+# from aws_cdk import aws_apigatewayv2 as apigwv2
+# from aws_cdk import aws_apigatewayv2_integrations as integrations
+
+# http_api = apigwv2.HttpApi(self, "HttpApi")
+
+# http_api.add_routes(
+#     path="/hello",
+#     methods=[apigwv2.HttpMethod.GET],
+#     integration=integrations.HttpLambdaIntegration(
+#         "LambdaIntegration", handler
+#     )
+# )
